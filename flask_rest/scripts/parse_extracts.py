@@ -277,6 +277,17 @@ def get_authors(record, pub):
     pub.authors = authorNames
 
 
+def parse_org(affiliations, org):
+    fullname = " "
+    if isinstance(org, list):
+        for pos in range(len(org)):
+            fullname = fullname + \
+                       get_attribute(org[pos], "#text") + " "
+    elif org is not None:
+        fullname = fullname + get_attribute(org, "#text")
+    affiliations.append(fullname)
+
+
 def get_affiliations(record, pub):
     affiliations = []
     biblStruct = record["TEI"]["teiHeader"][
@@ -288,15 +299,17 @@ def get_affiliations(record, pub):
                 if isinstance(authorsRecord, list):
                     for index in range(len(authorsRecord)):
                         aff = get_attribute(authorsRecord[index], "affiliation")
-                        org = get_attribute(aff, "orgName")
-                        fullname = " "
-                        if isinstance(org, list):
-                            for pos in range(len(org)):
-                                fullname = fullname + \
-                                           get_attribute(org[pos], "#text") + " "
-                        elif org is not None:
-                            fullname = fullname + get_attribute(org, "#text")
-                        affiliations.append(fullname)
+                        if not aff:
+                            continue
+                        if isinstance(aff, dict):
+                            org = get_attribute(aff, "orgName")
+                            parse_org(affiliations, org)
+                        elif isinstance(aff, list):
+                            for item in aff:
+                                org = get_attribute(item, "orgName")
+                                parse_org(affiliations, org)
+                        else:
+                            continue
 
     filtered = filter(lambda x: not re.match(r'^\s*$', x),
                       affiliations)  # Remove whitespaces
