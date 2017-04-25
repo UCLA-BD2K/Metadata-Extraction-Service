@@ -79,7 +79,7 @@ mlp_tuned_parameters = [{'mlp__hidden_layer_sizes': [(1, 1), (2, 2), (3, 2), (4,
 precison_list = []
 recall_list = []
 classifier_list = [SVC(gamma=0.1, kernel='rbf', C=10, class_weight='balanced'),
-                   MLPClassifier(activation='logistic', algorithm='lbfgs', alpha=0.001, hidden_layer_sizes=(4, 2),
+                   MLPClassifier(activation='logistic', alpha=0.001, hidden_layer_sizes=(4, 2),
                                  max_iter=1000),
                    SGDClassifier(n_jobs=-1, n_iter=500, penalty='elasticnet', alpha=0.001,
                                  loss='log', shuffle=True, class_weight='balanced'),
