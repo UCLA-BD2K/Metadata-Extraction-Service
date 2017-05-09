@@ -154,6 +154,8 @@ def main(json_data):
                 continue
             solr_data[key] = {"set": value}
         push_to_solr(solr_data)
+    # return Success to flask server
+    return "Success"
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 
 def start_extraction(doi, dir_name, user):
+    print "dir name is " + dir_name
     main(dir_name, 0, None, 0, doi)
     with open(dir_name+'output.json', 'r') as output:
         result = output.read()
