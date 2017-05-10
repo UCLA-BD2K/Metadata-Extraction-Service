@@ -33,6 +33,9 @@ def extract():
     dir_name = doi.replace('/', '-')
     dir_name += '/'
     os.makedirs(dir_name)
+    #except Exception as e:
+    #    print e
+    #    return 'Someone is already modifying this document'
     with open(dir_name + 'file.pdf', 'wb') as input_file:
         input_file.write(pdf)
     return start_extraction(doi, dir_name, user)
